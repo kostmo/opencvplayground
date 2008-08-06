@@ -10,13 +10,43 @@ import gtk, gobject
 class WebcamManager:
 
 	def __init__(self):
+
 		self.webcams = []
+		print "Scanning available cameras..."
+
+		cam_index = 2
+		while True:
+
+			try:
+				capture = highgui.cvCreateCameraCapture( cam_index )
+			except e:
+				print "Capture error:"
+				print e
+
+			if not capture:
+				break
+
+			try:
+				webcam_frame = highgui.cvQueryFrame( capture )
+			except e:
+				print "Query error:"
+				print e
+
+			if not webcam_frame:
+				break
+
+			print "Camera %d: %dx%d" % (cam_index, webcam_frame.width, webcam_frame.height)
+
+#			cv.cvReleaseCapture( capture )
+
+		print "Finished scanning."
+
 
 # ==================================
 
 class VideoWindow(gtk.Frame):
 
-	def __init__(self):
+	def __init__(self, device):
 
 		gtk.Frame.__init__(self, "Video Source")
 
@@ -48,7 +78,7 @@ class VideoWindow(gtk.Frame):
 
 		self.capture = None
 
-		device = 0
+#		device = 0
 		self.start_capture(device)
 
 		if self.initialize_video():

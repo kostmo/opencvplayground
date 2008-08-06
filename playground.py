@@ -4,9 +4,11 @@ from pygtk import require
 require('2.0')
 import gtk, gobject
 
-from webcam import VideoWindow
+from webcam import WebcamManager, VideoWindow
 
 class Playground:
+
+	application_name = "OpenCV Playground"
 
 	# ===============================
 
@@ -15,7 +17,7 @@ class Playground:
 
 		# create a new window
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		self.window.set_title("OpenCV Playground")
+		self.window.set_title( self.application_name )
 #		self.window.set_icon_from_file("")
 
 		self.window.connect("delete_event", self.delete_event)
@@ -48,20 +50,47 @@ class Playground:
 		top_menu.append( help_menu )
 		top_menu.append( view_menu )
 
+		# ----------------------------
+
+#		self.webcam_manager = WebcamManager()
 
 		# ----------------------------
 
 
-		self.video = VideoWindow()
-		vbox.pack_start(self.video, False, False)
+		hbox = gtk.HBox(False, 5)
+		vbox.pack_start(hbox, False, False)
+		cam_add = gtk.Button(stock=gtk.STOCK_ADD)
+		hbox.pack_start(cam_add, False, False)
+		cam_index = gtk.SpinButton(gtk.Adjustment(1, 0, 7, 1))
+		hbox.pack_start(cam_index, False, False)
+		cam_add.connect("clicked", self.cb_add_camera, cam_index)
+
+		self.video_tray = gtk.HBox(False, 5)
+		vbox.pack_start(self.video_tray, True, True)
+
+
+
+		self.status_bar = gtk.Statusbar()
+		self.status_bar.set_has_resize_grip(True)
+		vbox.pack_start(self.status_bar, False, False)
+
 
 		self.window.show_all()
+
+	# ===============================
+
+	def cb_add_camera(self, widget, index_widget):
+
+		video = VideoWindow( index_widget.get_value_as_int() )
+		self.video_tray.pack_start(video, False, False)
+		video.show_all()
 
 	# ===============================
 
 	def cb_about_dialog(self, widget):
 
 		about_dialog = gtk.AboutDialog()
+		about_dialog.set_name( self.application_name )
 		about_dialog.set_version("0.1")
 		about_dialog.set_copyright("2008")
 		about_dialog.set_website("")
