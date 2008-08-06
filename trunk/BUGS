@@ -1,0 +1,4 @@
+KNOWN BUGS:
+===========
+
+cvQueryFrame() occasionally freezes
