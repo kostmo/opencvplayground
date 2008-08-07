@@ -63,9 +63,36 @@
           </widget>
         </child>
         <child>
+          <widget class="GtkMenuItem" id="menuitem20">
+
+            <property name="label">Filters</property>
+            <property name="use_underline">False</property>
+            <child>
+              <widget class="GtkMenu" id="menu20">
+                <child>
+                  <widget class="GtkMenuItem" id="menuitem200">
+                    <property name="label">Simple Threshold</property>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkMenuItem" id="menuitem201">
+                    <property name="label">Sobel</property>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkMenuItem" id="menuitem202">
+                    <property name="label">Laplacian</property>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+
+          </widget>
+        </child>
+        <child>
           <widget class="GtkMenuItem" id="menuitem2">
-            
-            
+
+
             <property name="label" translatable="yes">_Edit</property>
             <property name="use_underline">True</property>
             <child>

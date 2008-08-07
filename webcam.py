@@ -68,7 +68,7 @@ class VideoWindow(FilterStage):
 		self.inverted_video = gtk.CheckButton("Invert video")
 		hbox.pack_start(self.inverted_video, False, False)
 
-		hbox.pack_start(gtk.Label("Framerate:"), False, False)
+		hbox.pack_end(gtk.Label("Framerate:"), False, False)
 
 		# -----------------------------------
 

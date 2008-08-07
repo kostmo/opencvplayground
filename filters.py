@@ -9,9 +9,14 @@ from pipeline import FilterStage
 
 # ==================================
 
-class ImageFilter(FilterStage):
+class Laplacian(FilterStage):
 
 	def __init__(self):
+
+
+		FilterStage.__init__(self)
+
+		print "Added Laplacian filter..."
 
 
 

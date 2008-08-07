@@ -6,6 +6,7 @@ import gtk, gobject
 import gtk.glade
 
 from webcam import WebcamManager, VideoWindow
+import filters
 
 class Playground:
 
@@ -14,7 +15,6 @@ class Playground:
 	# ===============================
 
 	def __init__(self):
-
 
 		# create a new window
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
@@ -36,6 +36,9 @@ class Playground:
 		main_menu = wTree.get_widget("menubar1")
 		vbox.pack_start(main_menu, False, False)
 		wTree.get_widget("imagemenuitem10").connect("activate", self.cb_about_dialog)
+
+		wTree.get_widget("menuitem202").connect("activate", self.cb_add_filter, filters.Laplacian)
+
 
 		# ----------------------------
 
@@ -65,6 +68,25 @@ class Playground:
 
 
 		self.window.show_all()
+
+
+	# ===============================
+
+	def cb_add_filter(self, widget, data):
+
+		print "Adding filter"
+
+		connector = gtk.Image()
+		connector.set_from_stock(gtk.STOCK_GO_FORWARD, gtk.ICON_SIZE_LARGE_TOOLBAR)
+		connector.show()
+		self.video_tray.pack_start(connector, False, False)
+
+		filter_object = data()
+#		self.video_window_list.append( video )
+		self.video_tray.pack_start(filter_object, False, False)
+		filter_object.show_all()
+
+
 
 	# ===============================
 
