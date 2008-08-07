@@ -3,6 +3,7 @@
 from pygtk import require
 require('2.0')
 import gtk, gobject
+import gtk.glade
 
 from webcam import WebcamManager, VideoWindow
 
@@ -30,25 +31,11 @@ class Playground:
 		vbox = gtk.VBox(False, 5)
 		self.window.add(vbox)
 
-		top_menu = gtk.MenuBar()
-		vbox.pack_start(top_menu, False, False)
 
-
-		view_menu = gtk.MenuItem("_View")
-		view_submenu = gtk.Menu()
-		view_menu.set_submenu( view_submenu )
-		view_submenu.append( gtk.MenuItem("Camera") )
-
-		help_menu = gtk.MenuItem("_Help")
-		help_submenu = gtk.Menu()
-
-		help_menu.set_submenu( help_submenu )
-		about_item = gtk.MenuItem("About")
-		about_item.connect("activate", self.cb_about_dialog)
-		help_submenu.append( about_item )
-
-		top_menu.append( help_menu )
-		top_menu.append( view_menu )
+		wTree = gtk.glade.XML("filter_menu.glade")
+		main_menu = wTree.get_widget("menubar1")
+		vbox.pack_start(main_menu, False, False)
+		wTree.get_widget("imagemenuitem10").connect("activate", self.cb_about_dialog)
 
 		# ----------------------------
 
@@ -61,10 +48,12 @@ class Playground:
 		vbox.pack_start(hbox, False, False)
 		cam_add = gtk.Button(stock=gtk.STOCK_ADD)
 		hbox.pack_start(cam_add, False, False)
-		cam_index = gtk.SpinButton(gtk.Adjustment(1, 0, 7, 1))
+		cam_index = gtk.SpinButton(gtk.Adjustment(0, 0, 7, 1))
 		hbox.pack_start(cam_index, False, False)
 		cam_add.connect("clicked", self.cb_add_camera, cam_index)
 
+
+		self.video_window_list = []
 		self.video_tray = gtk.HBox(False, 5)
 		vbox.pack_start(self.video_tray, True, True)
 
@@ -82,6 +71,7 @@ class Playground:
 	def cb_add_camera(self, widget, index_widget):
 
 		video = VideoWindow( index_widget.get_value_as_int() )
+		self.video_window_list.append( video )
 		self.video_tray.pack_start(video, False, False)
 		video.show_all()
 
@@ -121,8 +111,8 @@ class Playground:
 
 	def destroy(self, widget, data=None):
 
-		if self.video:
-			self.video.stop_capture()
+		for video in self.video_window_list:
+			video.stop_capture()
 
 		gtk.main_quit()
 

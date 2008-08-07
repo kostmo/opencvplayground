@@ -14,7 +14,7 @@ class WebcamManager:
 		self.webcams = []
 		print "Scanning available cameras..."
 
-		cam_index = 2
+		cam_index = 0
 		while True:
 
 			try:
@@ -44,34 +44,31 @@ class WebcamManager:
 
 # ==================================
 
-class VideoWindow(gtk.Frame):
+
+from pipeline import FilterStage
+
+class VideoWindow(FilterStage):
 
 	def __init__(self, device):
 
-		gtk.Frame.__init__(self, "Video Source")
 
-
-		master_vbox = gtk.VBox(False, 5)
-		master_vbox.set_border_width( 5 )
-		self.add( master_vbox )
-
-
-		video_frame = gtk.Frame()
-		self.video_image = gtk.Image()
-
-		master_vbox.pack_start(video_frame, False, False)
-		video_frame.add(self.video_image)
+		FilterStage.__init__(self)
 
 		# -----------------------------------
 
 		self.video_enabled_button = gtk.ToggleButton("Enable Video")
 		self.video_enabled_button.connect('clicked', self.cb_toggle_video)
-		master_vbox.pack_start(self.video_enabled_button, False, False)
+		self.master_vbox.pack_start(self.video_enabled_button, False, False)
 
 		# -----------------------------------
 
+		hbox = gtk.HBox(False, 5)
+		self.master_vbox.pack_start(hbox, False, False)
+
 		self.inverted_video = gtk.CheckButton("Invert video")
-		master_vbox.pack_start(self.inverted_video, False, False)
+		hbox.pack_start(self.inverted_video, False, False)
+
+		hbox.pack_start(gtk.Label("Framerate:"), False, False)
 
 		# -----------------------------------
 
