@@ -78,7 +78,11 @@ class FilterPipeline(gtk.HBox):
 		self.filter_tray.pack_start(connector, False, False)
 
 		filter_object = data( self )
+		if len(self.active_filters):
+			self.active_filters[-1].next_stage = filter_object
 		self.active_filters.append( filter_object )
+
+
 		self.filter_tray.pack_start(filter_object, False, False)
 		filter_object.show_all()
 

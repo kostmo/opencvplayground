@@ -15,6 +15,7 @@ class FilterStage(gtk.Frame):
 	def __init__(self, pipeline, title=""):
 
 		self.pipeline = pipeline
+		self.next_stage = None
 
 		gtk.Frame.__init__(self, title)
 
@@ -48,8 +49,10 @@ class FilterStage(gtk.Frame):
 			self.display_frame.widthStep)
 		self.video_image.set_from_pixbuf(self.webcam_pixbuf)
 
-		# TODO / FIXME:
-		# HERE WE MUST SIGNAL AHEAD TO THE NEXT FILTER IN THE PIPELINE, PROPAGATING THE UPDATE
+		# Here we must signal ahead to the next filter in the pipeline, propagating the update
+		if self.next_stage:
+			self.next_stage.redraw_filter_frame()
+
 
 # ==================================
 
@@ -91,10 +94,12 @@ class Threshold(FilterStage):
 		adj = gtk.Adjustment( *self.value_range_parameters )
 		self.lower_bound = gtk.HScale(adj)
 		self.lower_bound.set_value_pos(gtk.POS_RIGHT)
+		self.lower_bound.set_digits(0)
 
 		adj = gtk.Adjustment( *self.value_range_parameters )
 		self.upper_bound = gtk.HScale(adj)
 		self.upper_bound.set_value_pos(gtk.POS_RIGHT)
+		self.upper_bound.set_digits(0)
 		self.upper_bound.set_value(255)
 
 
@@ -144,6 +149,8 @@ class Blobs(FilterStage):
 
 	filter_label = "Blobs"
 
+        value_range_parameters = (1000, 0, 320*240, 1, 5, 25)
+
 	def __init__(self, pipeline):
 
 		FilterStage.__init__(self, pipeline, self.filter_label + " filter")
@@ -155,6 +162,45 @@ class Blobs(FilterStage):
 		self.mask = cv.cvCreateImage (size, 8, 1)
 		cv.cvSet(self.mask, 1)
 
+
+
+
+
+
+
+
+		adj = gtk.Adjustment( *self.value_range_parameters )
+		self.lower_bound = gtk.HScale(adj)
+		self.lower_bound.set_value_pos(gtk.POS_RIGHT)
+		self.lower_bound.set_digits(0)
+
+		adj = gtk.Adjustment( *self.value_range_parameters )
+		self.upper_bound = gtk.HScale(adj)
+		self.upper_bound.set_value_pos(gtk.POS_RIGHT)
+		self.upper_bound.set_digits(0)
+		self.upper_bound.set_value(100000)
+
+
+		mini_hbox = gtk.HBox(False, 5)
+		mini_hbox.pack_start(gtk.Label("Lower threshold:"), False, False)
+		mini_hbox.pack_start(self.lower_bound, True, True)
+		self.master_vbox.pack_start(mini_hbox, False, False)
+
+		mini_hbox = gtk.HBox(False, 5)
+		mini_hbox.pack_start(gtk.Label("Upper threshold:"), False, False)
+		mini_hbox.pack_start(self.upper_bound, True, True)
+		self.master_vbox.pack_start(mini_hbox, False, False)
+
+		self.lower_bound.connect('value_changed', self.redraw_filter_frame)
+		self.upper_bound.connect('value_changed', self.redraw_filter_frame)
+
+
+
+
+		self.pass_original_frame = gtk.CheckButton("Pass original frame")
+		self.master_vbox.pack_start(self.pass_original_frame, False, False)
+
+
 	# --------------------------------------
 
 	def recalculate_filter( self, input_frame, output_frame ):
@@ -162,8 +208,16 @@ class Blobs(FilterStage):
 		from blobs.BlobResult import CBlobResult
 		from blobs.Blob import CBlob
 
+
+
+
 		cv.cvCvtColor(input_frame, self.my_grayscale, cv.CV_RGB2GRAY);
 		cv.cvThreshold(self.my_grayscale, self.my_grayscale, 128, 255, cv.CV_THRESH_BINARY)
+
+		if self.pass_original_frame.get_active():
+			cv.cvCopy( input_frame, output_frame )
+		else:
+			cv.cvCvtColor(self.my_grayscale, output_frame, cv.CV_GRAY2RGB);
 
 
 		myblobs = CBlobResult(self.my_grayscale, self.mask, 100, True)
