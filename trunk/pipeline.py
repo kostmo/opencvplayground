@@ -28,7 +28,6 @@ class FilterPipeline(gtk.HBox):
 		filter_menu = gtk.Menu()
 		filter_options = [filters.Threshold, filters.Laplacian, filters.Passthrough, filters.Blobs]
 
-
 		for my_filter in filter_options:
 
 			filter_name = my_filter.filter_label

@@ -43,15 +43,31 @@ class Playground(gtk.Window):
 
 		# ----------------------------
 
+		self.pipeline_list = []
 		pipeline_toolbar = gtk.Toolbar()
-		add_button = gtk.ToolButton(gtk.STOCK_ADD)
+
+
+
+		filter_menu = gtk.Menu()
+		video_source_options = ["Webcam", "Image", "OpenGL"]
+
+		for video_source in video_source_options:
+
+			video_source_name = video_source
+
+			menu_item = gtk.MenuItem( video_source_name )
+#			menu_item.connect("activate", self.cb_add_filter, my_filter)
+			menu_item.show()
+			filter_menu.append( menu_item )
+
+		add_button = gtk.MenuToolButton( gtk.STOCK_ADD )
 		add_button.set_label("Add pipeline")
+		add_button.set_menu( filter_menu )
 		add_button.connect("clicked", self.cb_add_pipeline)
 		pipeline_toolbar.insert( add_button, 0 )
 		vbox.pack_start(pipeline_toolbar, False, False)
 
 
-		self.video_window_list = []	# FIXME: deprecate
 		self.pipeline_tray = gtk.VBox(False, 5)
 		vbox.pack_start(self.pipeline_tray, True, True)
 
@@ -69,7 +85,9 @@ class Playground(gtk.Window):
 	def cb_add_pipeline(self, widget, data=None):
 
 		from pipeline import FilterPipeline
-		self.pipeline_tray.pack_start( FilterPipeline( self ), False, False)
+		pipeline = FilterPipeline( self )
+		self.pipeline_tray.pack_start(pipeline, False, False)
+		self.pipeline_list.append( pipeline )
 
 		self.status_bar.push(0, "Added filter pipeline")
 
@@ -103,8 +121,8 @@ class Playground(gtk.Window):
 
 		print "Cleaning up and quitting..."
 
-		for video in self.video_window_list:
-			video.stop_capture()
+		for pipeline in self.pipeline_list:
+			pipeline.video_source.stop_capture()
 
 		gtk.main_quit()
 
