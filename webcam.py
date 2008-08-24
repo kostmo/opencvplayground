@@ -64,8 +64,11 @@ class VideoWindow(FilterStage):
 		hbox = gtk.HBox(False, 5)
 		self.master_vbox.pack_start(hbox, False, False)
 
-		self.inverted_video = gtk.CheckButton("Invert video")
+		self.inverted_video = gtk.CheckButton("Flip vertical")
 		hbox.pack_start(self.inverted_video, False, False)
+
+		self.flipped_video = gtk.CheckButton("Flip horizontal")
+		hbox.pack_start(self.flipped_video, False, False)
 
 		hbox.pack_end(gtk.Label("Framerate:"), False, False)
 
@@ -143,6 +146,8 @@ class VideoWindow(FilterStage):
 		if self.inverted_video.get_active():
 			highgui.cvConvertImage(webcam_frame, webcam_frame, highgui.CV_CVTIMG_FLIP)
 
+		if self.flipped_video.get_active():
+			cv.cvFlip (webcam_frame, None, 1)
 
 		highgui.cvConvertImage(webcam_frame, self.display_frame, highgui.CV_CVTIMG_SWAP_RB)
 
