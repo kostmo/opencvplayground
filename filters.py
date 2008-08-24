@@ -83,9 +83,9 @@ class Threshold(FilterStage):
 		FilterStage.__init__(self, pipeline, self.filter_label + " filter")
 
 		input_frame = self.pipeline.video_source.display_frame
-                self.display_frame = cv.cvCreateImage( cv.cvGetSize(input_frame), cv.IPL_DEPTH_8U, 3)
-
-		self.my_grayscale = cv.cvCreateImage (cv.cvGetSize(input_frame), 8, 1)
+		size = cv.cvGetSize(input_frame)
+                self.display_frame = cv.cvCreateImage(size, cv.IPL_DEPTH_8U, 3)
+		self.my_grayscale = cv.cvCreateImage (size, 8, 1)
 
 
 		adj = gtk.Adjustment( *self.value_range_parameters )
@@ -119,14 +119,13 @@ class Threshold(FilterStage):
 		cv.cvThreshold(self.my_grayscale, self.my_grayscale, self.lower_bound.get_value(), self.upper_bound.get_value(), cv.CV_THRESH_BINARY)
 		cv.cvCvtColor(self.my_grayscale, output_frame, cv.CV_GRAY2RGB);
 
-
 # ==================================
 
 class Laplacian(FilterStage):
 
 	filter_label = "Laplacian"
 
-	def __init__(self):
+	def __init__(self, pipeline):
 
 		FilterStage.__init__(self, pipeline, self.filter_label + " filter")
 
@@ -145,15 +144,39 @@ class Blobs(FilterStage):
 
 	filter_label = "Blobs"
 
-	def __init__(self):
+	def __init__(self, pipeline):
 
 		FilterStage.__init__(self, pipeline, self.filter_label + " filter")
 
 		input_frame = self.pipeline.video_source.display_frame
-                self.display_frame = cv.cvCreateImage( cv.cvGetSize(input_frame), cv.IPL_DEPTH_8U, 3)
+		size = cv.cvGetSize(input_frame)
+                self.display_frame = cv.cvCreateImage(size, cv.IPL_DEPTH_8U, 3)
+		self.my_grayscale = cv.cvCreateImage (size, 8, 1)
+		self.mask = cv.cvCreateImage (size, 8, 1)
+		cv.cvSet(self.mask, 1)
 
 	# --------------------------------------
 
 	def recalculate_filter( self, input_frame, output_frame ):
 
-		cv.cvCopy( input_frame, output_frame )
+		from blobs.BlobResult import CBlobResult
+		from blobs.Blob import CBlob
+
+		cv.cvCvtColor(input_frame, self.my_grayscale, cv.CV_RGB2GRAY);
+		cv.cvThreshold(self.my_grayscale, self.my_grayscale, 128, 255, cv.CV_THRESH_BINARY)
+
+
+		myblobs = CBlobResult(self.my_grayscale, self.mask, 100, True)
+
+		myblobs.filter_blobs(10, 10000)
+		blob_count = myblobs.GetNumBlobs()
+
+
+		from color_helpers import hsv2rgb
+		for i in range(blob_count):
+
+			my_enumerated_blob = myblobs.GetBlob(i)
+			my_enumerated_blob.FillBlob(output_frame, hsv2rgb( i*180.0/blob_count ), 0, 0)
+
+
+
