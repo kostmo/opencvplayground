@@ -45,14 +45,13 @@ class WebcamManager:
 # ==================================
 
 
-from pipeline import FilterStage
+from filters import FilterStage
 
 class VideoWindow(FilterStage):
 
-	def __init__(self, device):
+	def __init__(self, device, pipeline):
 
-
-		FilterStage.__init__(self)
+		FilterStage.__init__(self, pipeline, "Webcam")
 
 		# -----------------------------------
 
@@ -158,7 +157,7 @@ class VideoWindow(FilterStage):
 		incoming_pixbuf.copy_area(0, 0, self.display_frame.width, self.display_frame.height, self.webcam_pixbuf, 0, 0)
 
 		self.video_image.queue_draw()
-
+		self.pipeline.propagate_filter_refresh()
 
 		return self.video_enabled_button.get_active()
 
