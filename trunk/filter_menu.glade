@@ -1,174 +1,119 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.0 on Wed Aug  6 22:47:02 2008 -->
+<!--Generated with glade3 3.4.5 on Sat Aug 23 19:08:46 2008 -->
 <glade-interface>
-      <widget class="GtkMenuBar" id="menubar1">
+  <widget class="GtkMenuBar" id="menubar1">
+    <child>
+      <widget class="GtkMenuItem" id="menuitem1">
+        <property name="label" translatable="yes">_File</property>
+        <property name="use_underline">True</property>
         <child>
-          <widget class="GtkMenuItem" id="menuitem1">
-            <property name="label" translatable="yes">_File</property>
-            <property name="use_underline">True</property>
+          <widget class="GtkMenu" id="menu1">
             <child>
-              <widget class="GtkMenu" id="menu1">   
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem1">
-                    <property name="label" translatable="yes">gtk-new</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem2">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-open</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem3">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-save</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem4">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-save-as</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">
-                    
-                    
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem5">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-quit</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem1">
+                <property name="label" translatable="yes">gtk-new</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
               </widget>
             </child>
-          </widget>
-        </child>
-        <child>
-          <widget class="GtkMenuItem" id="menuitem20">
-
-            <property name="label">Filters</property>
-            <property name="use_underline">False</property>
             <child>
-              <widget class="GtkMenu" id="menu20">
-                <child>
-                  <widget class="GtkMenuItem" id="menuitem200">
-                    <property name="label">Simple Threshold</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkMenuItem" id="menuitem201">
-                    <property name="label">Sobel</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkMenuItem" id="menuitem202">
-                    <property name="label">Laplacian</property>
-                  </widget>
-                </child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem2">
+                <property name="label" translatable="yes">gtk-open</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
               </widget>
             </child>
-
-          </widget>
-        </child>
-        <child>
-          <widget class="GtkMenuItem" id="menuitem2">
-
-
-            <property name="label" translatable="yes">_Edit</property>
-            <property name="use_underline">True</property>
             <child>
-              <widget class="GtkMenu" id="menu2">
-                
-                
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem6">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-cut</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem7">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-copy</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem8">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-paste</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem9">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-delete</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem3">
+                <property name="label" translatable="yes">gtk-save</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
               </widget>
             </child>
-          </widget>
-        </child>
-        <child>
-          <widget class="GtkMenuItem" id="menuitem3">
-            
-            
-            <property name="label" translatable="yes">_View</property>
-            <property name="use_underline">True</property>
-          </widget>
-        </child>
-        <child>
-          <widget class="GtkMenuItem" id="menuitem4">
-            
-            
-            <property name="label" translatable="yes">_Help</property>
-            <property name="use_underline">True</property>
             <child>
-              <widget class="GtkMenu" id="menu3">
-                
-                
-                <child>
-                  <widget class="GtkImageMenuItem" id="imagemenuitem10">
-                    
-                    
-                    <property name="label" translatable="yes">gtk-about</property>
-                    <property name="use_underline">True</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                </child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem4">
+                <property name="label" translatable="yes">gtk-save-as</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem5">
+                <property name="label" translatable="yes">gtk-quit</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+                <signal name="activate" handler="on_quit"/>
               </widget>
             </child>
           </widget>
         </child>
       </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="menuitem2">
+        <property name="label" translatable="yes">_Edit</property>
+        <property name="use_underline">True</property>
+        <child>
+          <widget class="GtkMenu" id="menu2">
+            <child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem6">
+                <property name="label" translatable="yes">gtk-cut</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem7">
+                <property name="label" translatable="yes">gtk-copy</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem8">
+                <property name="label" translatable="yes">gtk-paste</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem9">
+                <property name="label" translatable="yes">gtk-delete</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+              </widget>
+            </child>
+          </widget>
+        </child>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="menuitem3">
+        <property name="label" translatable="yes">_View</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="menuitem4">
+        <property name="label" translatable="yes">_Help</property>
+        <property name="use_underline">True</property>
+        <child>
+          <widget class="GtkMenu" id="menu3">
+            <child>
+              <widget class="GtkImageMenuItem" id="imagemenuitem10">
+                <property name="label" translatable="yes">gtk-about</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+                <signal name="activate" handler="on_about"/>
+              </widget>
+            </child>
+          </widget>
+        </child>
+      </widget>
+    </child>
+  </widget>
 </glade-interface>

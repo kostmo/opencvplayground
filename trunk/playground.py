@@ -5,10 +5,7 @@ require('2.0')
 import gtk, gobject
 import gtk.glade
 
-from webcam import WebcamManager, VideoWindow
-import filters
-
-class Playground:
+class Playground(gtk.Window):
 
 	application_name = "OpenCV Playground"
 
@@ -17,27 +14,27 @@ class Playground:
 	def __init__(self):
 
 		# create a new window
-		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		self.window.set_title( self.application_name )
-#		self.window.set_icon_from_file("")
+		gtk.Window.__init__( self, gtk.WINDOW_TOPLEVEL )
+		self.set_title( self.application_name )
+		self.set_icon_from_file("slow_children.svg")
 
-		self.window.connect("delete_event", self.delete_event)
-#		self.window.connect("key_press_event", self.handle_keyboard_press_event)
-#		self.window.connect("key_release_event", self.handle_keyboard_release_event)
-#		self.window.set_events(gtk.gdk.KEY_PRESS_MASK | gtk.gdk.KEY_RELEASE_MASK)
 
-		self.window.connect("destroy", self.destroy)
+		self.connect("destroy", self.destroy)
 
-		vbox = gtk.VBox(False, 5)
-		self.window.add(vbox)
+		vbox = gtk.VBox(False)
+		self.add(vbox)
 
 
 		wTree = gtk.glade.XML("filter_menu.glade")
 		main_menu = wTree.get_widget("menubar1")
 		vbox.pack_start(main_menu, False, False)
-		wTree.get_widget("imagemenuitem10").connect("activate", self.cb_about_dialog)
 
-		wTree.get_widget("menuitem202").connect("activate", self.cb_add_filter, filters.Laplacian)
+
+
+		dic = {	"on_quit" : self.destroy,
+			"on_about" : self.cb_about_dialog}
+
+		wTree.signal_autoconnect(dic)
 
 
 		# ----------------------------
@@ -46,19 +43,17 @@ class Playground:
 
 		# ----------------------------
 
-
-		hbox = gtk.HBox(False, 5)
-		vbox.pack_start(hbox, False, False)
-		cam_add = gtk.Button(stock=gtk.STOCK_ADD)
-		hbox.pack_start(cam_add, False, False)
-		cam_index = gtk.SpinButton(gtk.Adjustment(0, 0, 7, 1))
-		hbox.pack_start(cam_index, False, False)
-		cam_add.connect("clicked", self.cb_add_camera, cam_index)
+		pipeline_toolbar = gtk.Toolbar()
+		add_button = gtk.ToolButton(gtk.STOCK_ADD)
+		add_button.set_label("Add pipeline")
+		add_button.connect("clicked", self.cb_add_pipeline)
+		pipeline_toolbar.insert( add_button, 0 )
+		vbox.pack_start(pipeline_toolbar, False, False)
 
 
-		self.video_window_list = []
-		self.video_tray = gtk.HBox(False, 5)
-		vbox.pack_start(self.video_tray, True, True)
+		self.video_window_list = []	# FIXME: deprecate
+		self.pipeline_tray = gtk.VBox(False, 5)
+		vbox.pack_start(self.pipeline_tray, True, True)
 
 
 
@@ -67,35 +62,16 @@ class Playground:
 		vbox.pack_start(self.status_bar, False, False)
 
 
-		self.window.show_all()
-
-
-	# ===============================
-
-	def cb_add_filter(self, widget, data):
-
-		print "Adding filter"
-
-		connector = gtk.Image()
-		connector.set_from_stock(gtk.STOCK_GO_FORWARD, gtk.ICON_SIZE_LARGE_TOOLBAR)
-		connector.show()
-		self.video_tray.pack_start(connector, False, False)
-
-		filter_object = data()
-#		self.video_window_list.append( video )
-		self.video_tray.pack_start(filter_object, False, False)
-		filter_object.show_all()
-
-
+		self.show_all()
 
 	# ===============================
 
-	def cb_add_camera(self, widget, index_widget):
+	def cb_add_pipeline(self, widget, data=None):
 
-		video = VideoWindow( index_widget.get_value_as_int() )
-		self.video_window_list.append( video )
-		self.video_tray.pack_start(video, False, False)
-		video.show_all()
+		from pipeline import FilterPipeline
+		self.pipeline_tray.pack_start( FilterPipeline( self ), False, False)
+
+		self.status_bar.push(0, "Added filter pipeline")
 
 	# ===============================
 
@@ -106,7 +82,7 @@ class Playground:
 		about_dialog.set_version("0.1")
 		about_dialog.set_copyright("2008")
 		about_dialog.set_website("")
-#		about_dialog.set_logo( gtk.gdk.pixbuf_new_from_file("") )
+		about_dialog.set_logo( gtk.gdk.pixbuf_new_from_file("slow_children.svg") )
 		about_dialog.set_copyright(u"\u00A92008 Karl Ostmo")
 		about_dialog.set_authors(["Karl Ostmo"])
 		about_dialog.set_website("http://kostmo.ath.cx/")
@@ -123,21 +99,14 @@ class Playground:
 
 	# ===============================
 
-	def delete_event(self, widget, event, data=None):
-
-		# Change FALSE to TRUE and the main window will not be destroyed
-		# with a "delete_event".
-		return False
-
-	# ===============================
-
 	def destroy(self, widget, data=None):
+
+		print "Cleaning up and quitting..."
 
 		for video in self.video_window_list:
 			video.stop_capture()
 
 		gtk.main_quit()
-
 
 	# ===============================
 
