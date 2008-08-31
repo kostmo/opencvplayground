@@ -19,17 +19,20 @@ class FilterStage(gtk.Frame):
 
 		gtk.Frame.__init__(self, title)
 
-
 		self.master_vbox = gtk.VBox(False, 5)
 		self.master_vbox.set_border_width( 5 )
 		self.add( self.master_vbox )
 
-
-		video_frame = gtk.Frame()
 		self.video_image = gtk.Image()
-
-		self.master_vbox.pack_start(video_frame, False, False)
+		video_frame = gtk.Frame()
 		video_frame.add(self.video_image)
+
+		self.my_expander = gtk.Expander("_Results Preview")
+		self.my_expander.add(video_frame)
+
+		self.my_expander.set_use_underline(True)
+		self.my_expander.set_expanded(True)
+		self.master_vbox.pack_start(self.my_expander, False, False)
 
 	# --------------------------------------
 

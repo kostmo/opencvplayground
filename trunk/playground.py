@@ -44,7 +44,7 @@ class Playground(gtk.Window):
 		# ----------------------------
 
 		self.pipeline_list = []
-		pipeline_toolbar = gtk.Toolbar()
+		pipeline_toolbar = gtk.HBox()
 
 
 
@@ -60,11 +60,53 @@ class Playground(gtk.Window):
 			menu_item.show()
 			filter_menu.append( menu_item )
 
-		add_button = gtk.MenuToolButton( gtk.STOCK_ADD )
-		add_button.set_label("Add pipeline")
+
+		add_button = gtk.Button( "Add pipeline", gtk.STOCK_ADD )
+		add_button.set_relief( gtk.RELIEF_NONE )
+
+		buttoncontainer = add_button.get_children()
+		print buttoncontainer
+		buttoncontainer2 = buttoncontainer[0].get_children()
+		print buttoncontainer2
+		buttoncontainer3 = buttoncontainer2[0].get_children()
+		print buttoncontainer3
+
+
+		buttoncontainer = add_button.get_children()[0]
+		old_hbox = buttoncontainer.get_children()[0]
+
+		arrow = gtk.Arrow(gtk.ARROW_DOWN, gtk.SHADOW_NONE)
+		arrow.show()
+
+		old_hbox.pack_start( arrow, False, False )
+
+		print '*'*30
+		buttoncontainer = add_button.get_children()
+		print buttoncontainer
+		buttoncontainer2 = buttoncontainer[0].get_children()
+		print buttoncontainer2
+		buttoncontainer3 = buttoncontainer2[0].get_children()
+		print buttoncontainer3
+
+		label_child = buttoncontainer3[1]
+
+		print "label pack query:", old_hbox.query_child_packing(label_child)
+		old_hbox.reorder_child(label_child, 1)
+
+
+		print '*'*30
+		buttoncontainer = add_button.get_children()
+		print buttoncontainer
+		buttoncontainer2 = buttoncontainer[0].get_children()
+		print buttoncontainer2
+		buttoncontainer3 = buttoncontainer2[0].get_children()
+		print buttoncontainer3
+		'''
 		add_button.set_menu( filter_menu )
+		'''
+
 		add_button.connect("clicked", self.cb_add_pipeline)
-		pipeline_toolbar.insert( add_button, 0 )
+		pipeline_toolbar.pack_start( add_button, False, False )
 		vbox.pack_start(pipeline_toolbar, False, False)
 
 
