@@ -140,11 +140,22 @@ class Laplacian(FilterStage):
 		input_frame = self.pipeline.video_source.display_frame
                 self.display_frame = cv.cvCreateImage( cv.cvGetSize(input_frame), cv.IPL_DEPTH_8U, 3)
 
+
+		self.planes = []
+		for i in range( 3 ):
+			self.planes.append( cv.cvCreateImage( cv.cvGetSize(input_frame), 8, 1 ) )
+		self.laplace = cv.cvCreateImage( cv.cvGetSize(input_frame), cv.IPL_DEPTH_16S, 1 )
+
 	# --------------------------------------
 
 	def recalculate_filter( self, input_frame, output_frame ):
 
-		cv.cvCopy( input_frame, output_frame )
+		cv.cvSplit( input_frame, self.planes[0], self.planes[1], self.planes[2], None );
+		for plane in self.planes:
+			cv.cvLaplace( plane, self.laplace, 3 )
+			cv.cvConvertScaleAbs( self.laplace, plane, 1, 0 )
+
+		cv.cvMerge( self.planes[0], self.planes[1], self.planes[2], None, self.display_frame );
 
 # ==================================
 
