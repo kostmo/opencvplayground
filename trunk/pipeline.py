@@ -90,7 +90,7 @@ class FilterPipeline(gtk.HBox):
 
 	# ===============================
 
-	def cb_add_camera(self, widget, cam_index=1):
+	def cb_add_camera(self, widget, cam_index=0):
 
 		self.video_source = VideoWindow( cam_index, self )
 
