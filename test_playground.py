@@ -68,11 +68,9 @@ class Playground(gtk.Window):
 			source_menu.append( menu_item )
 		source_menu.show_all()
 
+
 		add_button.connect( "clicked", self.popup_cb, source_menu )
 		source_menu.connect( "deactivate", self.my_deactivate_cb, add_button )
-
-
-
 
 
 
@@ -104,9 +102,10 @@ class Playground(gtk.Window):
 
 	# ===============================
 
-	def cb_add_pipeline(self, widget, data=None):
+	def cb_add_pipeline(self, widget, data):
 
 		from pipeline import FilterPipeline
+
 		pipeline = FilterPipeline( self )
 		self.pipeline_tray.pack_start(pipeline, False, False)
 		self.pipeline_list.append( pipeline )
