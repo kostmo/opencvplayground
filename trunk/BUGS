@@ -2,3 +2,13 @@ KNOWN BUGS:
 ===========
 
 cvQueryFrame() occasionally freezes
+
+
+WEIRD BEHAVIOR:
+===============
+
+When Quit is clicked, we exit cleanly.
+When the X button is clicked, it calls the same routine, but exits with a segfault.  ???
+
+
+When the pipline "add_button" menu is activated, we get an invalid reference passed to the "deactivate" callback
