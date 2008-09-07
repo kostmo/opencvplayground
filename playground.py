@@ -15,6 +15,7 @@ class Playground(gtk.Window):
 
 		# create a new window
 		gtk.Window.__init__( self, gtk.WINDOW_TOPLEVEL )
+		self.set_resizable( False )
 		self.set_title( self.application_name )
 		self.set_icon_from_file("slow_children.svg")
 
