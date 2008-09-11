@@ -33,6 +33,7 @@ class Playground(gtk.Window):
 		toolbar.insert(menu_button, -1)
 
 
+
 		# ATTEMPT NUMBER THREE
 		toggle_button = gtk.ToggleToolButton(gtk.STOCK_ADD)
 		toolbutton_icon_widget = gtk.HBox()
@@ -59,8 +60,8 @@ class Playground(gtk.Window):
 		add_button.set_relief( gtk.RELIEF_NONE )
 		container = add_button.get_children()[0].get_children()[0]
 		arrow = gtk.Arrow(gtk.ARROW_DOWN, gtk.SHADOW_NONE)
-#		container.reorder_child(arrow, -1)	# doesn't put the arrow at the end :(
-		container.pack_start( arrow, False, False )
+		container.pack_end( arrow, False, False )
+		container.reorder_child(arrow, -1)	# doesn't put the arrow at the end :(
 		vbox.pack_start(add_button, False, False)
 
 		self.show_all()
@@ -69,7 +70,7 @@ class Playground(gtk.Window):
 		print "Activated item", child_index
 
 	def deactivate_cb(self, menu, button):
-#		print "Menu deactivated."	# Why is this called twice?
+		print "Menu deactivated."	# Why is this called twice?
 		button.set_active(False)
 
 	def popup_cb(self, widget, menu):

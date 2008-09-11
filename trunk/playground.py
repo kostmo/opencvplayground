@@ -48,18 +48,8 @@ class Playground(gtk.Window):
 		pipeline_toolbar = gtk.Toolbar()
 
 
-
-
-
-		add_button = gtk.ToggleToolButton(gtk.STOCK_ADD)
-		toolbutton_icon_widget = gtk.HBox()
-		img = gtk.Image()
-		img.set_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_SMALL_TOOLBAR)
-		toolbutton_icon_widget.pack_start(img, False, False)
-		arrow = gtk.Arrow(gtk.ARROW_DOWN, gtk.SHADOW_NONE)
-		toolbutton_icon_widget.pack_start(arrow, False, False)
-		add_button.set_icon_widget(toolbutton_icon_widget)
-		pipeline_toolbar.insert(add_button, -1)
+		from handy_widgets import make_menu_button
+		add_button = make_menu_button(pipeline_toolbar, gtk.STOCK_ADD, "Add Pipeline")
 
 		source_menu = gtk.Menu()
 		video_source_options = ["Webcam", "Image", "OpenGL"]
@@ -68,22 +58,7 @@ class Playground(gtk.Window):
 			menu_item.connect("activate", self.cb_add_pipeline, video_source_name)
 			source_menu.append( menu_item )
 		source_menu.show_all()
-
-		add_button.connect( "clicked", self.popup_cb, source_menu )
-		source_menu.connect( "deactivate", self.my_deactivate_cb, add_button )
-
-
-
-
-
-
-
-
-
-
-
-
-
+		add_button.set_menu(source_menu)
 
 
 
@@ -148,20 +123,6 @@ class Playground(gtk.Window):
 			pipeline.video_source.stop_capture()
 
 		gtk.main_quit()
-
-	# ===============================
-
-	def my_deactivate_cb(self, menu, button):
-		print "Menu deactivated."	# Why is this called twice?
-		print "Menu:", menu
-		print "Buton:", button
-		if button:
-			button.set_active(False)
-
-	def popup_cb(self, widget, menu):
-		menu.popup(None, None, None, 1, 0)
-
-	# ===============================
 
 if __name__ == "__main__":
 
