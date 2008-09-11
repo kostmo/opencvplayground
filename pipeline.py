@@ -28,6 +28,9 @@ class FilterPipeline(gtk.HBox):
 		filter_menu = gtk.Menu()
 		filter_options = [filters.Threshold, filters.Laplacian, filters.Passthrough, filters.Blobs]
 
+
+
+
 		for my_filter in filter_options:
 
 			filter_name = my_filter.filter_label
@@ -37,15 +40,9 @@ class FilterPipeline(gtk.HBox):
 			menu_item.show()
 			filter_menu.append( menu_item )
 
-
-		add_button = gtk.MenuToolButton( gtk.STOCK_ADD )
-		add_button.set_label("Add filter")
+		from handy_widgets import make_menu_button
+		add_button = make_menu_button(filter_toolbar, gtk.STOCK_ADD, "Add\nfilter")
 		add_button.set_menu( filter_menu )
-#		add_button.connect("clicked", self.cb_add_camera)
-		filter_toolbar.insert( add_button, 0 )
-
-
-
 
 
 		self.pack_start(filter_toolbar, False, False)
