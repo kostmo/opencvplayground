@@ -143,11 +143,9 @@ class VideoWindow(FilterStage):
 			print "Capture error!"
 			return False
 
-		if self.inverted_video.get_active():
-			highgui.cvConvertImage(webcam_frame, webcam_frame, highgui.CV_CVTIMG_FLIP)
-
-		if self.flipped_video.get_active():
-			cv.cvFlip (webcam_frame, None, 1)
+		flip_parameter = self.flipped_video.get_active() | (self.inverted_video.get_active() << 1)
+		if flip_parameter:
+			cv.cvFlip (webcam_frame, None, 2 - flip_parameter)
 
 		highgui.cvConvertImage(webcam_frame, self.display_frame, highgui.CV_CVTIMG_SWAP_RB)
 
