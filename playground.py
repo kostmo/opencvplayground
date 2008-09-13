@@ -25,9 +25,9 @@ class Playground(gtk.Window):
 		vbox = gtk.VBox(False)
 		self.add(vbox)
 
-
-		wTree = gtk.glade.XML("filter_menu.glade")
-		main_menu = wTree.get_widget("menubar1")
+		widget_name = "menubar1"
+		wTree = gtk.glade.XML("filter_menu.glade", widget_name)
+		main_menu = wTree.get_widget(widget_name)
 		vbox.pack_start(main_menu, False, False)
 
 
