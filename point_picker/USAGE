@@ -1,0 +1,25 @@
+REQUIREMENTS
+============
+This application requires PyGTK and OpenCV
+In Ubuntu, these may be acquired with:
+sudo apt-get install python-gtk2 python-opencv
+
+
+INSTRUCTIONS
+============
+Execute the program by running the file ./main.py
+
+Hold down "Shift" or "Ctrl" to select a pair of photos in the Open dialog box.
+
+Right-clicking on an image cycles through the tabs of images.
+
+Points may be removed individually or in groups by highlighting them and clicking "Delete".
+
+When finished, the points may be written to the command line in array form by clicking "Print".
+
+
+
+
+Leave comments at kostmo@gmail.com or use the Google Code bug form at:
+http://code.google.com/p/opencvplayground/issues/list
+
