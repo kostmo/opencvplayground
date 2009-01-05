@@ -1,0 +1,15 @@
+REQUIREMENTS
+============
+This application requires PyGTK and OpenCV
+In Ubuntu, these may be acquired with:
+sudo apt-get install python-gtk2 python-opencv
+
+
+INSTRUCTIONS
+============
+
+
+
+Leave comments at kostmo@gmail.com or use the Google Code bug form at:
+http://code.google.com/p/opencvplayground/issues/list
+
