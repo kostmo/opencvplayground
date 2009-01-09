@@ -82,7 +82,7 @@ if __name__ == "__main__":
 	chessboard_data_set = []
 	img = None
 	for i in range(4):
-		img = highgui.cvLoadImage("calibration_images/cal%d.jpg"%i, highgui.CV_LOAD_IMAGE_COLOR)
+		img = highgui.cvLoadImage("images/cal%d.jpg"%i, highgui.CV_LOAD_IMAGE_COLOR)
 		found_all, corners = cv.cvFindChessboardCorners( img, chessboard_dim )
 		chessboard_data_set.append( ChessboardDataContainer(corners, chessboard_dimension) )
 
