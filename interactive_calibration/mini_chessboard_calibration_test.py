@@ -3,35 +3,43 @@ from opencv import cv
 from opencv import highgui
 
 # =======================================================
+def print_matrix(matrix, digits=None):
 
-def print_matrix(matrix):
-	for i in range(matrix.rows):
-		for j in range(matrix.cols):
-			print cv.cvmGet(matrix, i, j), "\t",
+	if matrix.rows == 1 or matrix.cols == 1:
+		quant = max(matrix.rows, matrix.cols)
+		for i in range(quant):
+			print (("%."+str(digits)+"f\t") % matrix[i]),
 		print
+	else:
+		for i in range(matrix.rows):
+			for j in range(matrix.cols):
+				if not (digits is None):
+					print (("%."+str(digits)+"f\t") % matrix[i][j]),
+				else:
+					print matrix[i][j], "\t",
+			print
 
 # =======================================================
 
 class ChessboardDataContainer:
 
-	def __init__(self, image_points, chessboard_size):
+	def __init__(self, image_points, chessboard_inner_points):
 
 		self.image_points = image_points
 		self.object_points = []
 
 		# Generate Checkboard Pattern
 		square_unit = 1.0
-		chessboard_inner_points = chessboard_size - 1
-		for i in range(chessboard_inner_points):
-			for j in range(chessboard_inner_points):
-				self.object_points.append( cv.cvPoint3D32f( (j+1)*square_unit, (chessboard_inner_points - i)*square_unit, 0) )
+		for i in range(chessboard_inner_points[0]):
+			for j in range(chessboard_inner_points[1]):
+				self.object_points.append( cv.cvPoint3D32f( (j+1)*square_unit, (chessboard_inner_points[1] - i)*square_unit, 0) )
 
 # ===================================================
 
-def try_calibration(chessboard_data_collection, chessboard_dimension, frame_size):
+def try_calibration(chessboard_data_collection, corner_counts, frame_size):
 
 	# Convert everything to matrices
-	per_board_point_quantity = (chessboard_dimension - 1) ** 2
+	per_board_point_quantity = corner_counts[0]*corner_counts[1]
 
 	corners_matrix = cv.cvCreateMat( len(chessboard_data_collection)*per_board_point_quantity, 2, cv.CV_32FC1 )
 	object_points_matrix = cv.cvCreateMat( len(chessboard_data_collection)*per_board_point_quantity, 3, cv.CV_32FC1 )
@@ -84,11 +92,11 @@ if __name__ == "__main__":
 	for i in range(4):
 		img = highgui.cvLoadImage("images/cal%d.jpg"%i, highgui.CV_LOAD_IMAGE_COLOR)
 		found_all, corners = cv.cvFindChessboardCorners( img, chessboard_dim )
-		chessboard_data_set.append( ChessboardDataContainer(corners, chessboard_dimension) )
+		chessboard_data_set.append( ChessboardDataContainer(corners, [chessboard_inner_points, chessboard_inner_points]) )
 
 	
 
-	try_calibration(chessboard_data_set, chessboard_dimension, cv.cvGetSize(img))
+	try_calibration(chessboard_data_set, [chessboard_inner_points, chessboard_inner_points], cv.cvGetSize(img))
 
 	print "Done."
 

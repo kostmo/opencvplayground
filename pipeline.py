@@ -57,8 +57,8 @@ class FilterPipeline(gtk.HBox):
 
 		self.show_all()
 
-		self.cb_add_camera( None )
-
+		self.cb_add_camera( None )	# FIXME
+#		self.cb_add_camera( None, 1 )
 	# ===============================
 
 	def propagate_filter_refresh(self):
