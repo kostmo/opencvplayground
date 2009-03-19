@@ -214,7 +214,7 @@ class ApplicationFrame(gtk.Assistant):
 	def cb_perform_calibration(self, widget):
 
 		chessboard_dimensions = [w.get_value_as_int()-1 for w in self.chessboard_tiles_controls]
-		chessboard_dim = cv.cvSize( *chessboard_dimensions )
+		chessboard_dim = cv.cvSize( chessboard_dimensions[1], chessboard_dimensions[0] )
 
 
 		chessboard_data_set = []
@@ -226,7 +226,6 @@ class ApplicationFrame(gtk.Assistant):
 
 		try_calibration(chessboard_data_set, chessboard_dimensions, cv.cvGetSize(img))
 
-		chessboard_data_set = []
 
 		print "Done."
 
@@ -270,7 +269,7 @@ class ApplicationFrame(gtk.Assistant):
 			self.chessboard_tiles_controls.append( spin_button )
 			lil_hbox.pack_start( spin_button, False, False)
 
-		self.chessboard_tiles_controls[0].set_value(5)	# TODO
+		self.chessboard_tiles_controls[0].set_value(6)	# TODO
 
 		# ~~~~~~~~~~~~~~~~~~~
 
