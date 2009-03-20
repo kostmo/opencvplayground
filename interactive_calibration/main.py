@@ -215,12 +215,22 @@ class ApplicationFrame(gtk.Assistant):
 
 		chessboard_dimensions = [w.get_value_as_int()-1 for w in self.chessboard_tiles_controls]
 		chessboard_dim = cv.cvSize( chessboard_dimensions[1], chessboard_dimensions[0] )
+#		chessboard_dim = cv.cvSize( *chessboard_dimensions )
 
+
+		ts = self.treeview.get_model()
+		myiter = ts.get_iter_first()
+		
 
 		chessboard_data_set = []
 		img = None
-		for i in range(4):
-			img = highgui.cvLoadImage("images/cal%d.jpg"%i, highgui.CV_LOAD_IMAGE_COLOR)
+		while myiter:
+
+			filename = ts.get_value(myiter, 1)
+			myiter = ts.iter_next(myiter)
+
+
+			img = highgui.cvLoadImage(filename, highgui.CV_LOAD_IMAGE_COLOR)
 			found_all, corners = cv.cvFindChessboardCorners( img, chessboard_dim )
 			chessboard_data_set.append( ChessboardDataContainer(corners, chessboard_dimensions) )
 

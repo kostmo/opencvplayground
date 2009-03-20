@@ -1,1 +1,6 @@
-None :)
+
+For non-square calibration patterns the two focal lengths (on the diagonal) come out highly dissimilar.
+
+Swapping the cvSize values seemed to fix it.  Is there a rule about having the larger of the two second?
+
+Maybe I should put a "swap" button in the tile dimension chooser.
